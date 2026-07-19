@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ali-DataViz | Transforming Process Data Into Visual Stories</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Your stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="navbar">
+<div class="nav-logo">
+  <a href="index.html">
+    <img src="ali-logo.svg" alt="Ali DataViz Logo" class="logo-img" />
+  </a>
+</div>
+      <ul class="nav-links">
+      <li><a href="#work">My Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="case-studies.html">Case Studies</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="#connect">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section class="hero">
+
+    <!-- Dark overlay so text is readable over the background image -->
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+      <!-- Main headline — bold, stacked, all caps like your Canva -->
+      <h1 class="hero-headline">
+        Transforming<br/>
+        Complex Process Data<br/>
+        Into<br/>
+        Clean Visual Story
+      </h1>
+
+      <!-- Supporting line in italic, lighter weight -->
+      <p class="hero-subtext">
+        I help engineering teams to act fast and decide right by turning<br/>
+        chaotic data into clean, clutter-less dashboard story
+      </p>
+
+      <!-- Two CTA buttons -->
+      <div class="hero-buttons">
+        <a href="#connect" class="btn btn-primary">Contact Me</a>
+        <a href="#work" class="btn btn-secondary">See My Work</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== MY WORK SECTION ========== -->
+  <section class="work-section" id="work">
+    <h2 class="section-heading">MY WORK</h2>
+    <p class="section-subtext">Explore my selected projects here. Click for real-time interaction</p>
+
+    <!-- Project cards go here — placeholders for now -->
+    <div class="slider-wrapper">
+  <button class="slider-arrow left-arrow" onclick="scrollSlider(-1)">&#8592;</button>
+  <div class="projects-slider" id="projectsSlider">
+      <!-- Project Card 1 — placeholder -->
+      <!-- Project Card 1 — Melbourne Microclimate Dashboard -->
+<div class="project-card">
+
+  <!-- Mini image slider inside card -->
+  <div class="card-slider" id="cardSlider1">
+    <div class="card-slides">
+      <img src="Mel1.png" class="card-slide-img" alt="Dashboard Page 1" />
+      <img src="Mel2.png" class="card-slide-img" alt="Dashboard Page 2" />
+      <img src="Mel3.png" class="card-slide-img" alt="Dashboard Page 3" />
+      <img src="Mel4.png" class="card-slide-img" alt="Dashboard Page 4" />
+    </div>
+
+    <!-- Left and right arrows inside card -->
+    <button class="card-arrow card-left" onclick="moveSlide('cardSlider1', -1)">&#8592;</button>
+    <button class="card-arrow card-right" onclick="moveSlide('cardSlider1', 1)">&#8594;</button>
+
+    <!-- Dot indicators -->
+    <div class="card-dots">
+      <span class="card-dot active"></span>
+      <span class="card-dot"></span>
+      <span class="card-dot"></span>
+      <span class="card-dot"></span>
+    </div>
+  </div>
+
+  <!-- Card text content -->
+  <div class="project-card-body">
+    <h3 class="project-title">Melbourne Microclimate Dashboard</h3>
+    <p class="project-problem">887K sensor readings across 10 Melbourne locations — turned into a 4-page interactive story about air, noise and urban comfort.</p>
+  </div>
+
+</div>
+
+<!-- Project Card 2 — PL Dashboard -->
+<div class="project-card">
+
+  <!-- Mini image slider inside card -->
+  <div class="card-slider" id="cardSlider2">
+    <div class="card-slides">
+      <img src="PL1.png" class="card-slide-img" alt="Dashboard Page 1" />
+      <img src="PL2.png" class="card-slide-img" alt="Dashboard Page 2" />
+      <img src="PL3.png" class="card-slide-img" alt="Dashboard Page 3" />
+      <img src="PL4.png" class="card-slide-img" alt="Dashboard Page 4" />
+      <img src="PL5.png" class="card-slide-img" alt="Dashboard Page 5" />
+      <img src="PL6.png" class="card-slide-img" alt="Dashboard Page 6" />
+    </div>
+
+    <!-- Left and right arrows inside card -->
+    <button class="card-arrow card-left" onclick="moveSlide('cardSlider2', -1)">&#8592;</button>
+    <button class="card-arrow card-right" onclick="moveSlide('cardSlider2', 1)">&#8594;</button>
+
+    <!-- Dot indicators -->
+    <div class="card-dots">
+      <span class="card-dot active"></span>
+      <span class="card-dot"></span>
+      <span class="card-dot"></span>
+      <span class="card-dot"></span>
+      <span class="card-dot"></span>
+      <span class="card-dot"></span>
+    </div>
+  </div>
+
+  <!-- Card text content -->
+  <div class="project-card-body">
+    <h3 class="project-title">Process Loss Intelligence Dashboard</h3>
+    <p class="project-problem">Investigated a 12-month production yield decline, diagnosing root causes and delivering data-driven recommendations to recover plant performance.</p>
+  </div>
+
+</div>
+      <!-- Project Card 3 — placeholder -->
+      <div class="project-card">
+        <div class="project-thumbnail">[ Dashboard Screenshot ]</div>
+        <h3 class="project-title">Project Title Here</h3>
+        <p class="project-problem">One-line problem statement goes here</p>
+      </div>
+
+    </div>
+  <button class="slider-arrow right-arrow" onclick="scrollSlider(1)">&#8594;</button>
+</div>
+  </section>
+
+  <!-- ========== ABOUT / HI I'M ALI SECTION ========== -->
+  <section class="about-section" id="about">
+
+    <div class="about-container">
+
+      <!-- Left side — placeholder for your photo -->
+      <div class="about-image">
+  <img src="about pic.png" alt="Ali" class="about-photo" />
+</div>
+
+      <!-- Right side — all your text content -->
+      <div class="about-text">
+
+        <h2 class="about-heading">Hi, I'm Ali</h2>
+
+        <p class="about-intro">
+          I'm a Chemical &amp; Process Engineer with expertise in Data Visualization and Storytelling.
+        </p>
+
+        <p class="about-body">
+          Having 5+ years of R&D experience, I've lived on both sides of the data problem — collecting it, wrestling with it, and trying to make sense of it under pressure. We engineers are brilliant at technical stuff, but turning that chaotic data into a clean, insightful dashboard is where things fall apart.
+
+        </p>
+
+        <p class="about-body">
+          I fill this gap. My dashboard structure is built on simplicity and a smooth flow of information, which gives confidence to decision-makers for quick decisions.
+        </p>
+
+        <p class="about-blog">
+          I also share my DataViz learnings and tips in my blog articles.
+          <a href="blog.html" class="inline-link">Check it out here.</a>
+        </p>
+
+        <!-- Core Skills -->
+        <div class="skills-block">
+          <p class="skills-label">My core skills</p>
+          <div class="skills-tags">
+            <span class="tag">Data Cleaning</span>
+            <span class="tag">Advanced Excel</span>
+            <span class="tag">DAX &amp; Data Modelling</span>
+            <span class="tag">Performance Reporting</span>
+            <span class="tag">Data Storytelling</span>
+            <span class="tag">Visual Communication</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER / LET'S CONNECT ========== -->
+  <footer class="footer" id="connect">
+
+   <h2 class="footer-heading">LET'S CONNECT</h2>
+
+<p class="footer-tagline">My inbox is open for projects and opportunities. Email me at:</p>
+
+<!-- Email -->
+    <div class="footer-email">
+      <a href="mailto:muhammadaliaslam01@gmail.com" class="footer-email-link">
+        muhammadaliaslam01@gmail.com
+      </a>
+    </div>
+
+    <!-- LinkedIn -->
+    <p class="footer-linkedin-text">
+      I share valuable resources, tips &amp; my experiences on LinkedIn. Follow me : )
+    </p>
+<a href="https://www.linkedin.com/in/muhammadali-ce/" target="_blank" class="linkedin-btn">      
+<i class="fa-brands fa-linkedin-in"></i>
+    </a>
+
+    <!-- Copyright -->
+    <p class="footer-copy">&copy; 2025 Ali-DataViz. All rights reserved.</p>
+
+  </footer>
+
+<script>
+  /* ---- Main project slider (outer) ---- */
+  function scrollSlider(direction) {
+    const slider = document.getElementById('projectsSlider');
+    slider.scrollBy({
+      left: direction * 650,
+      behavior: 'smooth'
+    });
+  }
+
+  /* ---- Card mini slider (inner) ---- */
+  const cardStates = {};
+
+  function moveSlide(cardId, direction) {
+    const card = document.getElementById(cardId);
+    const slides = card.querySelector('.card-slides');
+    const dots = card.querySelectorAll('.card-dot');
+    const total = dots.length;
+
+    if (!cardStates[cardId]) cardStates[cardId] = 0;
+
+    cardStates[cardId] += direction;
+
+    /* Loop back when reaching end or start */
+    if (cardStates[cardId] >= total) cardStates[cardId] = 0;
+    if (cardStates[cardId] < 0) cardStates[cardId] = total - 1;
+
+    /* Move slides */
+    slides.style.transform = `translateX(-${cardStates[cardId] * 100}%)`;
+
+    /* Update dots */
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === cardStates[cardId]);
+    });
+  }
+</script>
+</body>
+</html>

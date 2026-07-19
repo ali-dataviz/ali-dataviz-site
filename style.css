@@ -1,0 +1,1018 @@
+/* ============================================================
+   Ali-DataViz — Main Stylesheet
+   File: style.css
+   Matches Canva draft layout exactly
+   ============================================================ */
+
+/* ---------- CSS VARIABLES (your color palette) ---------- */
+:root {
+  --color-bg-light: #ebe8da;       /* Off-white/cream — main background */
+  --color-bg-dark: #2e2e2e;        /* Dark charcoal — work section + footer */
+  --color-text-dark: #2e2e2e;      /* Dark charcoal for body text */
+  --color-text-light: #ebe8da;     /* Light text on dark backgrounds */
+  --color-accent: #c8b97a;         /* Gold/warm tone — matches Canva feel */
+  --color-tag-bg: #2e2e2e;         /* Skill tag background */
+  --color-tag-text: #ebe8da;       /* Skill tag text */
+
+  --font-headline: 'Segoe UI', sans-serif;   /* Big bold headlines */
+  --font-body: 'DM Sans', sans-serif;    /* Body text — clean and readable */
+}
+
+/* ---------- RESET & BASE ---------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; /* smooth scrolling when clicking nav links */
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg-light);
+  color: var(--color-text-dark);
+  line-height: 1.7;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ============================================================
+   NAVIGATION BAR
+   ============================================================ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 60px;
+  background-color: rgba(235, 232, 218, 0.5);
+  backdrop-filter: blur(8px);
+ -webkit-backdrop-filter: blur(8px);
+  height: 80px;        /* fixed navbar height — nothing will shift */
+}
+
+.nav-logo {
+  font-family: var(--font-headline);
+  font-size: 1.6rem;
+  color: var(--color-text-dark);
+  letter-spacing: 1px;
+}
+
+/* accent color on the second word of logo */
+.nav-logo span {
+  color: var(--color-accent);
+}
+
+.logo-img {
+  height: 200px;           /* size — change this */
+  width: auto;
+  object-fit: contain;
+  display: block;
+  position: relative;     /* allows free movement */
+  top: 15px;               /* move up (negative) or down (positive) */
+  left: -10px;              /* move left (negative) or right (positive) */
+  transform: scale(1);    /* zoom in or out — 1 is normal, 1.2 is 20% bigger */
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 36px;
+}
+
+.nav-links a {
+  color: var(--color-text-dark);
+  font-size: 0.95rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--color-accent);
+}
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100vh;          /* full screen height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  /* Background image — industrial/refinery feel like your Canva draft */
+  background-color: var(--color-bg-light);
+background-image: url('refinery.jpg');
+background-size: contain;
+background-repeat: no-repeat;
+background-position: bottom center;
+}
+
+/* Dark overlay so text is readable over the photo */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(235, 232, 218, 0.85);
+}
+
+/* All hero content sits above the overlay */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  padding: 40px 20px;
+}
+
+/* Main headline — large, stacked, all caps */
+.hero-headline {
+  font-family: var(--font-headline);
+  font-size: clamp(3rem, 8vw, 4.5rem); /* scales with screen size */
+  line-height: 1.05;
+  color: var(--color-text-dark);
+  letter-spacing: 1.5px;
+  margin-bottom: 24px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+/* Supporting italic line below headline */
+.hero-subtext {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--color-text-dark);
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+/* CTA buttons container */
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Base button style */
+.btn {
+  display: inline-block;
+  padding: 13px 32px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-radius: 30px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+/* Primary button — dark filled */
+.btn-primary {
+  background-color: var(--color-text-dark);
+  color: var(--color-text-light);
+  border: 2px solid var(--color-text-dark);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text-dark);
+}
+
+/* Secondary button — outlined */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-text-dark);
+border: 2px solid var(--color-text-dark);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-text-light);
+  color: var(--color-text-dark);
+}
+
+/* ============================================================
+   MY WORK SECTION
+   ============================================================ */
+.work-section {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  padding: 50px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.section-heading {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: 3px;
+  color: var(--color-text-light);
+  margin-bottom: 12px;
+}
+
+.section-subtext {
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(240, 237, 230, 0.7);
+  margin-bottom: 60px;
+}
+
+/* Slider of project cards — 3 columns on desktop */
+.projects-slider {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  overflow-x: scroll;         /* forces scrollbar to always show */
+  scroll-snap-type: x mandatory;
+  padding: 20px 60px 40px;
+  max-width: 100%;            /* full width of section */
+  margin: 0 auto;
+  cursor: grab;
+  -webkit-overflow-scrolling: touch;
+}
+/* Each card snaps into place */
+.projects-slider .project-card {
+  flex: 0 0 600px;            /* bigger card width */
+  scroll-snap-align: start;
+}
+/* Hide scrollbar but keep scrolling working */
+.projects-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.projects-slider::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+.projects-slider::-webkit-scrollbar-thumb {
+  background-color: #ebe8da;
+  border-radius: 10px;
+}
+
+/* Individual project card */
+.project-card {
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.5),
+              -2px -2px 8px rgba(255, 255, 255, 0.03);
+}
+
+.project-card:hover {
+  transform: translateY(-8px) rotateX(2deg) rotateY(2deg) scale(1.02);
+  box-shadow: 12px 20px 40px rgba(0, 0, 0, 0.6),
+              -4px -4px 12px rgba(255, 255, 255, 0.05);
+}
+
+.project-card:hover {
+  transform: translateY(-5px); /* lifts card on hover */
+}
+
+/* Placeholder for dashboard screenshot */
+.project-thumbnail {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #3a3a3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  overflow: hidden;
+  flex: 0 0 80%;
+}
+
+.project-title {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+  padding: 18px 20px 6px;
+}
+
+.project-problem {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: rgba(240, 237, 230, 0.65);
+  padding: 0 20px 16px;
+  line-height: 1.5;
+}
+
+.project-link {
+  display: inline-block;
+  margin: 0 20px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: 0.5px;
+  transition: letter-spacing 0.2s ease;
+}
+
+.project-link:hover {
+  letter-spacing: 1.5px;
+}
+
+.project-card-body {
+  flex: 0 0 20%;
+  padding: 12px 16px;
+}
+
+/* ============================================================
+   ABOUT SECTION — HI I'M ALI
+   ============================================================ */
+.about-section {
+  background-color: var(--color-bg-light);
+  padding: 80px 60px;
+}
+
+/* Two column layout — empty left half, text on right half */
+.about-container {
+  display: flex;
+  gap: 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: flex-start;
+  justify-content: flex-end;  /* pushes content to the right */
+}
+
+/* Left column — photo placeholder */
+.about-image {
+  flex: 0 0 45%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 40px;
+}
+.about-photo {
+  width: 420px;
+  height: 520px;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: 210px;
+}
+
+/* Right column — all text, limited to right half */
+.about-text {
+  flex: 0 0 55%;  /* takes up roughly right half of the page */
+  max-width: 600px;
+}
+
+.about-heading {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
+  color: var(--color-text-dark);
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+
+.about-intro {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: 20px;
+}
+
+.about-body {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #333;
+  margin-bottom: 18px;
+  line-height: 1.75;
+}
+
+.about-blog {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 32px;
+}
+
+/* Inline hyperlink inside paragraph */
+.inline-link {
+  color: var(--color-text-dark);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-text-dark);
+  transition: color 0.2s ease;
+}
+
+.inline-link:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* Skills block */
+.skills-block {
+  margin-top: 10px;
+}
+
+.skills-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+/* Tags container — wraps naturally */
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Individual skill tag — dark pill shape like your Canva */
+.tag {
+  background-color: var(--color-tag-bg);
+  color: var(--color-tag-text);
+  padding: 7px 18px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
+/* ============================================================
+   FOOTER — LET'S CONNECT
+   ============================================================ */
+.footer {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  text-align: center;
+  padding: 40px 40px 40px;
+}
+
+.footer-heading {
+  font-family: var(--font-headline);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  letter-spacing: 4px;
+  color: var(--color-text-light);
+  margin-bottom: 32px;
+}
+
+/* Email row with icon */
+.footer-email {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+/* Circle around email icon */
+.footer-icon {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-email-link {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  transition: color 0.2s ease;
+}
+
+.footer-email-link:hover {
+  color: var(--color-accent);
+}
+
+.footer-linkedin-text {
+  font-size: 0.9rem;
+  color: rgba(240, 237, 230, 0.6);
+  margin-bottom: 16px;
+}
+
+/* LinkedIn blue button — round icon */
+.linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: #0077b5;   /* official LinkedIn blue */
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1.2rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  margin-bottom: 48px;
+}
+
+.linkedin-btn:hover {
+  background-color: #005f8e;
+  transform: scale(1.08);
+}
+
+.footer-copy {
+  font-size: 0.78rem;
+  color: rgba(240, 237, 230, 0.3);
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  color: rgba(240, 237, 230, 0.6);
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* Navbar */
+  .navbar {
+    padding: 16px 24px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-links {
+    gap: 20px;
+  }
+
+  /* Hero */
+  .hero-icon {
+    display: none; /* hide molecule on small screens */
+  }
+
+  /* Work section */
+  .work-section {
+    padding: 70px 24px;
+  }
+
+  /* About section — stack to single column */
+  .about-section {
+    padding: 70px 24px;
+  }
+
+  .about-container {
+    flex-direction: column;
+  }
+
+  .about-image {
+    flex: unset;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 60px 24px 32px;
+  }
+}
+
+/* ============================================================
+   BLOG PAGE STYLES
+   ============================================================ */
+ 
+/* Navbar on blog page — dark background, sits normally above hero */
+.blog-navbar {
+  background-color: rgba(235, 232, 218, 0.5);
+  backdrop-filter: blur(8px);
+ -webkit-backdrop-filter: blur(8px);
+  position: relative;
+}
+ 
+.blog-navbar .nav-logo {
+  color: var(--color-text-light);
+}
+ 
+.blog-navbar .nav-links a {
+  color: var(--color-text-dark);
+}
+ 
+/* Blog hero — light background, centered text */
+.blog-hero {
+  background-color: var(--color-bg-light);
+  text-align: center;
+  padding: 80px 40px 60px;
+}
+ 
+.blog-hero-heading {
+  font-family: var(--font-headline);
+  font-size: clamp(3rem, 8vw, 4.5rem); 
+  color: var(--color-text-dark);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  font-weight: 800;
+}
+ 
+.blog-hero-subtext {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--color-text-dark);
+  line-height: 1.7;
+}
+ 
+/* Blog cards section — light background */
+.blog-section {
+  background-color: var(--color-bg-light);
+  padding: 20px 60px 80px;
+}
+ 
+/* 3 column grid */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+ 
+/* Individual blog card */
+.blog-card {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+ 
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+ 
+/* Thumbnail area */
+.blog-thumbnail {
+  width: 100%;
+  height: 200px;
+  background-color: #e0ddd4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.85rem;
+  position: relative;
+}
+
+.blog-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+ 
+/* Category tag — top left of thumbnail */
+.blog-category {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background-color: var(--color-text-dark);
+  color: var(--color-text-light);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 3px;
+}
+ 
+/* Card text content */
+.blog-card-body {
+  padding: 20px 22px 24px;
+}
+ 
+.blog-date {
+  font-size: 0.78rem;
+  color: #999;
+  margin-bottom: 8px;
+}
+ 
+.blog-title {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+ 
+.blog-excerpt {
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: #555;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+ 
+.blog-read-more {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  letter-spacing: 0.5px;
+  transition: letter-spacing 0.2s ease;
+}
+ 
+.blog-read-more:hover {
+  letter-spacing: 1.5px;
+}
+
+/* Wrapper that holds arrows and slider together */
+.slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+/* Arrow buttons */
+.slider-arrow {
+  background-color: #ebe8da;
+  border: none;
+  color: #1e1e1e;
+  font-size: 1.8rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease;
+  z-index: 2;
+  font-weight: 750;
+}
+
+.slider-arrow:hover {
+  background-color: #d4d0c4;
+}
+
+/* ============================================================
+   CARD MINI SLIDER
+   ============================================================ */
+
+.card-slider {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 16/9;
+}
+
+.card-slides {
+  display: flex;
+  transition: transform 0.4s ease;
+  height: 100%;
+}
+
+.card-slide-img {
+  min-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Left and right arrows inside card */
+.card-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 900;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 3;
+  transition: background-color 0.2s ease;
+}
+
+.card-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.card-left {
+  left: 10px;
+}
+
+.card-right {
+  right: 10px;
+}
+
+/* Dot indicators */
+.card-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+
+.card-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.card-dot.active {
+  background-color: #fff;
+}
+
+/* ============================================================
+   CASE STUDY PAGE STYLES
+   ============================================================ */
+
+/* Hero — reuses the same look as blog-hero, just different text */
+.casestudy-hero {
+  background-color: var(--color-bg-light);
+  text-align: center;
+  padding: 80px 40px 60px;
+}
+
+.casestudy-hero-heading {
+  font-family: var(--font-headline);
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  color: var(--color-text-dark);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  font-weight: 800;
+}
+
+.casestudy-hero-subtext {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--color-text-dark);
+  line-height: 1.7;
+}
+
+/* Section wrapper that holds all case study cards, stacked vertically */
+.casestudy-section {
+  background-color: var(--color-bg-light);
+  padding: 20px 60px 80px;
+}
+
+/* The vertical list itself — one card per row, spaced apart */
+.casestudy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Individual case study card — wide horizontal strip:
+   image on the left, written content on the right */
+.casestudy-card {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: row;
+  min-height: 340px;
+}
+
+.casestudy-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Image side — takes up left 45% of the card */
+.casestudy-thumbnail {
+  flex: 0 0 45%;
+  background-color: #e0ddd4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.85rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.casestudy-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Category tag — top left of the image, same style as blog cards */
+.casestudy-category {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background-color: var(--color-text-dark);
+  color: var(--color-text-light);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 3px;
+  z-index: 2;
+}
+
+/* Text side — takes up right 55% of the card */
+.casestudy-body {
+  flex: 0 0 55%;
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.casestudy-title {
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  line-height: 1.35;
+  margin-bottom: 14px;
+}
+
+/* Each labeled row: Problem / Insight / Design Decision / Result */
+.casestudy-point {
+  margin-bottom: 12px;
+}
+
+.casestudy-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 3px;
+}
+
+.casestudy-text {
+  font-size: 0.92rem;
+  font-weight: 300;
+  color: #555;
+  line-height: 1.6;
+}
+
+.casestudy-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  letter-spacing: 0.5px;
+  transition: letter-spacing 0.2s ease;
+}
+
+.casestudy-link:hover {
+  letter-spacing: 1.5px;
+  color: var(--color-accent);
+}
+
+/* ---------- Mobile — stack image on top, text below ---------- */
+@media (max-width: 768px) {
+  .casestudy-section {
+    padding: 20px 24px 60px;
+  }
+
+  .casestudy-card {
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .casestudy-thumbnail {
+    flex: unset;
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
+
+  .casestudy-body {
+    flex: unset;
+    padding: 24px 22px 28px;
+  }
+}
