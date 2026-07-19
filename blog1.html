@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple vs. Weighted Average: The Dashboard Mistake That Misleads Everyone — Ali-DataViz</title>
+
+  <!-- Same Google Fonts as main page -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Same shared stylesheet — no separate CSS needed -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ============================================================
+       A few extra styles just for blog POST pages (like this one).
+       These live here instead of style.css because they're only
+       used on individual article pages, not the blog listing page.
+       They reuse your existing colors/fonts via the CSS variables
+       already defined in style.css, so everything stays on-brand.
+       ============================================================ -->
+  <style>
+    /* Wrapper that holds the whole article, centered and readable width */
+    .post-wrapper {
+      background-color: var(--color-bg-light);
+      padding: 20px 24px 100px;
+    }
+
+    .post-content {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* "Back to Blog" link above the title */
+    .post-back-link {
+      display: inline-block;
+      margin-bottom: 28px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-dark);
+      letter-spacing: 0.5px;
+      transition: letter-spacing 0.2s ease;
+    }
+    .post-back-link:hover {
+      letter-spacing: 1.5px;
+      color: var(--color-accent);
+    }
+
+    /* Category + date row */
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .post-date {
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    /* Article title — reuses headline font like the rest of the site */
+    .post-title {
+      font-family: var(--font-headline);
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      line-height: 1.2;
+      color: var(--color-text-dark);
+      font-weight: 800;
+      margin-bottom: 34px;
+    }
+
+    /* Body paragraphs */
+    .post-body p {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .post-body strong {
+      font-weight: 600;
+      color: var(--color-text-dark);
+    }
+
+    /* Sub-headings inside the article (e.g. "Why This Happens?") */
+    .post-body h2 {
+      font-family: var(--font-body);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--color-text-dark);
+      margin: 42px 0 18px;
+    }
+
+    /* Numbered checklist styling */
+    .post-body ol {
+      margin: 0 0 22px 22px;
+    }
+
+    .post-body ol li {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    /* Inline chart image */
+    .post-image {
+      width: 100%;
+      border-radius: 10px;
+      margin: 10px 0 34px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Closing CTA line */
+    .post-cta {
+      margin-top: 46px;
+      padding-top: 26px;
+      border-top: 1px solid rgba(46, 46, 46, 0.15);
+      font-size: 0.98rem;
+      font-style: italic;
+      color: #555;
+    }
+
+    .post-cta a {
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+
+    @media (max-width: 600px) {
+      .post-wrapper {
+        padding: 0 18px 70px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION — same as blog listing page ========== -->
+  <nav class="navbar blog-navbar">
+    <a href="index.html">
+      <img src="ali-logo.svg" alt="Ali DataViz Logo" class="logo-img" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== ARTICLE ========== -->
+  <section class="post-wrapper">
+    <div class="post-content">
+
+      <!-- Back to blog listing -->
+      <a href="blog.html" class="post-back-link">← Back to Blog</a>
+
+      <!-- Category + date -->
+      <div class="post-meta">
+        <span class="blog-category" style="position: static;">Dashboard Design</span>
+        <span class="post-date">July 19, 2026</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="post-title">Simple vs. Weighted Average: The Dashboard Mistake That Misleads Everyone</h1>
+
+      <!-- Body -->
+      <div class="post-body">
+
+        <p>It's 5 minutes before the weekly review.</p>
+
+        <p>The dashboard looks perfect. KPIs are green. One final number to be added: the plant's overall yield.</p>
+
+        <p>Three yield values from three batches produced this week give a quick average. <strong>85% overall yield.</strong> The report goes out, management sees a healthy week, gives it a quick nod, and says, "Go ahead."</p>
+
+        <p>And here, that harmless number lied to everyone silently. The real number was 88%.</p>
+
+        <p>This 3-point gap looks tiny, but it's the difference between "on target" and "ahead of target."</p>
+
+        <p>So, what actually went wrong?</p>
+
+        <p>An overlooked averaging concept. Simple Average vs. Weighted Average.</p>
+
+        <p>Simple Average, also called Arithmetic Mean in maths, adds all values and divides by the total number of values. So, every value gets equal importance. On the other hand, a weighted average multiplies each value by its weight (such as production volume, sales, or sample size), adds the results, and divides by the total weight. So, larger or more important groups have a greater influence on the final number.</p>
+
+        <p>Let's quickly look at the data behind that dashboard.</p>
+
+        <p>Three batches ran that week — 70% yield, 80% yield, 90% yield. Simple average: 85%. Clean number, easy to report.</p>
+
+        <p>But those batches weren't the same size. The first batch was small — 5 units. The second, 10 units. The third, a full 40-unit run. Most of the week's output came from the batch that hit 90%, not the one that hit 70%.</p>
+
+        <!-- Chart image from the Word doc -->
+        <img src="AvgComp.png" alt="Simple average vs weighted average comparison chart — 85% vs 88%" class="post-image" />
+
+        <p>Now, weight each result by how much it actually represents, and the real average comes out to 88% — not 85%.</p>
+
+        <p>Three points gap sounds small. But that gap decides whether a plant manager tells leadership the process is drifting or performing above target. It decides whether an engineer spends the next week troubleshooting a "problem" that doesn't exist — or missing one that does.</p>
+
+        <h2>Why This Happens? (even with professionals)</h2>
+
+        <p>This mistake happens for three reasons — and all of them are surprisingly simple.</p>
+
+        <ol>
+          <li>"Average" is right there in the fields pane — just drag, drop, done. Weighted average takes one extra step: a small formula, a bit of thought about what your data represents. So, the default option becomes a convenient shortcut.</li>
+          <li>Most people see each row as one data point, not what that row represents (customers, sales, units, hours, etc.). Moreover, unequal groups are invisible from the dashboard. A chart shows three bars — 70, 80, 90. It doesn't show that one bar represents 5 units and another represents 40. And without this context, nothing prompts you to question the number.</li>
+          <li>The look and feel of "Average": it feels like a neutral word or the typical value, so nobody stops to check what's actually being averaged. And in most cases, the numbers look right (like in our case), making it go unnoticed.</li>
+        </ol>
+
+        <h2>The 10-Second 'Average' Check Can Save You!</h2>
+
+        <p>I know it's tedious to weigh every number on every dashboard. So don't. Just ask three questions before you average.</p>
+
+        <ol>
+          <li><strong>Are these groups the same size?</strong> Think: batches, shifts, stores, sensors, samples — if some groups are bigger than others, be careful with a simple average.</li>
+          <li><strong>Should bigger groups count more?</strong> Think: should 1,000 customers influence the result more than 10 customers?</li>
+          <li><strong>Am I about to make a decision based on this number?</strong> Think: if this KPI will drive actions or a call to leadership — check it before you trust it.</li>
+        </ol>
+
+        <p>If your answer is yes to any of these, don't drag "Average" into the field and stop there. Take the extra step. Weight it.</p>
+
+        <p class="post-cta">
+          Follow for more practical data thinking → <a href="https://www.linkedin.com/in/muhammadali-ce/" target="_blank">LinkedIn</a><br/><br/>
+          If this changed how you'll look at your next dashboard, share it with someone who needs to see it too.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER — exact same as homepage/blog page ========== -->
+  <footer class="footer" id="connect">
+
+    <h2 class="footer-heading">LET'S CONNECT</h2>
+
+    <p class="footer-tagline">My inbox is open for projects and opportunities. Email me at:</p>
+
+    <!-- Email -->
+    <div class="footer-email">
+      <a href="mailto:muhammadaliaslam01@gmail.com" class="footer-email-link">
+        muhammadaliaslam01@gmail.com
+      </a>
+    </div>
+
+    <!-- LinkedIn -->
+    <p class="footer-linkedin-text">
+      I share valuable resources, tips &amp; my experiences on LinkedIn. Follow me
+    </p>
+    <a href="https://www.linkedin.com/in/muhammadali-ce/" target="_blank" class="linkedin-btn">
+      <i class="fa-brands fa-linkedin-in"></i>
+    </a>
+
+    <!-- Copyright -->
+    <p class="footer-copy">&copy; 2025 Ali-DataViz. All rights reserved.</p>
+
+  </footer>
+
+</body>
+</html>
