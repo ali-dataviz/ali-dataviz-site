@@ -611,7 +611,7 @@ border: 2px solid var(--color-text-dark);
 .blog-hero {
   background-color: var(--color-bg-light);
   text-align: center;
-  padding: 80px 40px 60px;
+  padding: 30px 40px 60px;
 }
  
 .blog-hero-heading {
