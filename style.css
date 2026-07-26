@@ -851,7 +851,7 @@ border: 2px solid var(--color-text-dark);
 .casestudy-hero {
   background-color: var(--color-bg-light);
   text-align: center;
-  padding: 80px 40px 60px;
+  padding: 40px 40px 60px;
 }
 
 .casestudy-hero-heading {
@@ -897,7 +897,7 @@ border: 2px solid var(--color-text-dark);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   display: flex;
   flex-direction: row;
-  min-height: 340px;
+  min-height: 170px;
 }
 
 .casestudy-card:hover {
