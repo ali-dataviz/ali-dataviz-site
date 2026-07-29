@@ -887,6 +887,32 @@ border: 2px solid var(--color-text-dark);
   margin: 0 auto;
 }
 
+/* Wrapper to hold "See How" and the download button side by side */
+.casestudy-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* "Download Full Case Study" button */
+.casestudy-download-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 30px;
+  background-color: var(--color-text-dark);
+  border: 1.5px solid var(--color-text-dark);
+  color: var(--color-text-light);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+}
+
+.casestudy-download-btn:hover {
+  opacity: 0.85;
+}
 /* Individual case study card — wide horizontal strip:
    image on the left, written content on the right */
 .casestudy-card {
