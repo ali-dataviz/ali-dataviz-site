@@ -984,20 +984,14 @@ border: 2px solid var(--color-text-dark);
   margin-bottom: 14px;
 }
 
-/* Each labeled row: Problem / Insight / Design Decision / Result */
-.casestudy-point {
-  margin-bottom: 12px;
+.casestudy-teaser {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: #444;
+  line-height: 1.6;
+  margin: 10px 0 4px;
 }
-
-.casestudy-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  margin-bottom: 3px;
-}
-
 .casestudy-text {
   font-size: 0.92rem;
   font-weight: 300;
