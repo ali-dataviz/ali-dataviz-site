@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investigating the Hidden Root Causes Behind a 6.7pp Yield Loss — Ali-DataViz</title>
+
+  <!-- Same Google Fonts as main page, plus Poppins for the case study title -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,400&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Same shared stylesheet — no separate CSS needed -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ============================================================
+       Extra styles just for this case study page — same pattern
+       as blog1.html's .post-* styles, plus a few additions for
+       things blog posts didn't need: a stat highlight box and
+       a data table for the recovery plan.
+       ============================================================ -->
+  <style>
+    .post-wrapper {
+      background-color: var(--color-bg-light);
+      padding: 20px 24px 100px;
+    }
+
+    .post-content {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .post-back-link {
+      display: inline-block;
+      margin-bottom: 28px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--color-text-dark);
+      letter-spacing: 0.5px;
+      transition: letter-spacing 0.2s ease;
+    }
+    .post-back-link:hover {
+      letter-spacing: 1.5px;
+      color: var(--color-accent);
+    }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .post-date {
+      font-size: 0.85rem;
+      color: #888;
+    }
+
+    /* Title uses Poppins, matching the recent case-study card font change */
+    .post-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.8rem, 4.2vw, 2.5rem);
+      line-height: 1.3;
+      color: var(--color-text-dark);
+      font-weight: 700;
+      margin-bottom: 34px;
+    }
+
+    /* Section headings — Problem, Challenges, Approach, Insights, etc. */
+    .post-body h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      margin: 50px 0 18px;
+    }
+
+    .post-body h2:first-of-type {
+      margin-top: 10px;
+    }
+
+    .post-body p {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .post-body strong {
+      font-weight: 600;
+      color: var(--color-text-dark);
+    }
+
+    /* Numbered sub-points inside Challenges / Insights (each has its own bold mini-title) */
+    .post-body ol.numbered-points {
+      margin: 0 0 22px 0;
+      padding-left: 0;
+      list-style: none;
+      counter-reset: point-counter;
+    }
+
+    .post-body ol.numbered-points li {
+      counter-increment: point-counter;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 22px;
+      padding-left: 34px;
+      position: relative;
+    }
+
+    .post-body ol.numbered-points li::before {
+      content: counter(point-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      background-color: var(--color-text-dark);
+      color: var(--color-text-light);
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .post-body ol.numbered-points li strong {
+      display: block;
+      font-size: 1.08rem;
+      margin-bottom: 4px;
+    }
+
+    /* Plain bullet list — used for Approach and Technology & Skills */
+    .post-body ul.plain-list {
+      margin: 0 0 22px 0;
+      padding-left: 22px;
+    }
+
+    .post-body ul.plain-list li {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    /* Chart / diagram images */
+    .post-image {
+      width: 100%;
+      border-radius: 10px;
+      margin: 10px 0 30px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    .post-image-caption {
+      text-align: center;
+      font-size: 0.78rem;
+      font-style: italic;
+      color: #999;
+      margin-top: -18px;
+      margin-bottom: 30px;
+    }
+
+    /* Same caption style but with normal spacing — used below standalone smaller images
+       (like the Insights chart) that don't need the negative margin pulling it in tight */
+    .post-image-caption-spaced {
+      text-align: center;
+      font-size: 0.78rem;
+      font-style: italic;
+      color: #999;
+      margin-top: 8px;
+      margin-bottom: 30px;
+    }
+
+    /* Smaller centered image, used for the data-model diagram */
+    .post-image-medium {
+      max-width: 480px;
+      width: 100%;
+      display: block;
+      margin: 10px auto 6px;
+      border-radius: 10px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Approach section — image and text side by side, like the Word doc layout */
+    .approach-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      margin-bottom: 10px;
+    }
+
+    .approach-row > div:first-child {
+      flex: 0 0 240px;
+      max-width: 240px;
+    }
+
+    .approach-row .post-image-medium {
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .approach-row .approach-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .approach-row .plain-list {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 700px) {
+      .approach-row {
+        flex-direction: column;
+      }
+      .approach-row > div:first-child {
+        max-width: 320px;
+        margin: 0 auto;
+      }
+    }
+
+    /* Caption directly under the Approach image (inside the side-by-side column) */
+    .approach-row .approach-caption {
+      text-align: center;
+      font-size: 0.78rem;
+      font-style: italic;
+      color: #999;
+      margin: 8px 0 0;
+    }
+
+    /* Smaller chart image, used for the Insights root-cause bar chart */
+    .post-image-small {
+      max-width: 420px;
+      width: 100%;
+      display: block;
+      margin: 10px auto 6px;
+      border-radius: 10px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    }
+
+    /* Subheading used for "Projected Recovery: 95.8%..." inside Business Impact */
+    .post-subheading {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      margin: 30px 0 14px;
+      line-height: 1.4;
+    }
+
+    /* Recovery plan table */
+    .post-table-wrapper {
+      overflow-x: auto;
+      margin: 6px 0 30px;
+    }
+
+    table.post-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      min-width: 480px;
+    }
+
+    table.post-table th {
+      background-color: var(--color-text-dark);
+      color: var(--color-text-light);
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+    }
+
+    table.post-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(46, 46, 46, 0.1);
+      color: #333;
+      font-weight: 300;
+      vertical-align: top;
+    }
+
+    table.post-table td strong {
+      font-weight: 600;
+      color: var(--color-accent);
+    }
+
+    table.post-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Closing CTA section — includes the download button + connect links */
+    .post-cta-block {
+      margin-top: 50px;
+      padding: 34px 30px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+      text-align: center;
+    }
+
+    .post-cta-block h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      margin: 0 0 10px;
+      line-height: 1.4;
+    }
+
+    .post-cta-block p {
+      font-size: 1rem;
+      color: #555;
+      margin: 0 0 24px;
+    }
+
+    .post-cta-links {
+      font-size: 0.95rem;
+      color: #555;
+      margin: 0 0 22px;
+    }
+
+    .post-cta-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Solid button for "See Full Investigation Dashboard" — same fill style as the download button */
+    .post-cta-dashboard-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background-color: var(--color-text-dark);
+      border: 1.5px solid var(--color-text-dark);
+      color: var(--color-text-light);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .post-cta-dashboard-btn:hover {
+      opacity: 0.85;
+    }
+
+    .post-cta-links a {
+      font-weight: 600;
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .post-cta-links a:hover {
+      text-decoration: underline;
+    }
+
+    .post-cta-links .cta-divider {
+      color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      .post-wrapper {
+        padding: 0 18px 70px;
+      }
+      .post-cta-block {
+        padding: 26px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION — Home tab only, same as blog/case-studies pages ========== -->
+  <nav class="navbar blog-navbar">
+    <a href="index.html">
+      <img src="ali-logo.svg" alt="Ali DataViz Logo" class="logo-img" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== CASE STUDY ARTICLE ========== -->
+  <section class="post-wrapper">
+    <div class="post-content">
+
+      <!-- Back to case studies listing -->
+      <a href="case-studies.html" class="post-back-link">← Back to Case Studies</a>
+
+      <!-- Category + date -->
+      <div class="post-meta">
+        <span class="blog-category" style="position: static;">Process Engineering</span>
+        <span class="post-date">Case Study</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="post-title">Investigating the Hidden Root Causes Behind a 6.7pp Yield Loss in a Polymer Plant Using Power BI</h1>
+
+      <div class="post-body">
+
+        <!-- ===== PROBLEM ===== -->
+        <h2>Problem</h2>
+
+        <p>A PP/PET sheet extrusion facility running 4 production lines across 3 shifts observed its plant-wide yield slide from 96.1% to 89.5% over 12 months — that's a 6.7 percentage point drop showing no sign of leveling off.</p>
+
+        <p>Scrap output climbed, driving up the costs. The plant management had no single view to explain what was driving the decline.</p>
+
+        <!-- Chart 1: yield decline line chart -->
+        <img src="CS1-yield-decline.png" alt="Line chart showing plant yield declining from 96.1% baseline to 89.5% over 12 months, February through December" class="post-image" />
+        <p class="post-image-caption">Plant-wide yield decline, February to December</p>
+
+        <p>The mandate: <strong>identify</strong> what was driving the yield loss, <strong>quantify</strong> each contributing factor, and <strong>prioritize</strong> the actions needed to recover it.</p>
+
+        <!-- ===== CHALLENGES ===== -->
+        <h2>Challenges</h2>
+
+        <ol class="numbered-points">
+          <li>
+            <strong>Fragmented data</strong>
+            Yield, defects, supplier records, downtime, maintenance history, and ambient conditions were spread across 10 disconnected tables, with no unified view linking operational events to production outcomes.
+          </li>
+          <li>
+            <strong>Misleading surface pattern</strong>
+            Defect rates increased during the humid months each year, closely mirroring humidity levels — it seemed convincing enough to be the primary cause on its own.
+          </li>
+          <li>
+            <strong>Confounding variables</strong>
+            A new raw material supplier was introduced around the same time one production line's performance began to decline, making it difficult to tell whether the yield loss stemmed from one issue or two.
+          </li>
+          <li>
+            <strong>Analytical difficulty</strong>
+            None of the 3 suspected factors — material, mechanical, or seasonal — stood out in isolation. Each was partially masked by the others, while plant-wide averages obscured important differences between production lines.
+          </li>
+        </ol>
+
+        <!-- ===== APPROACH ===== -->
+        <h2>Approach</h2>
+
+        <!-- Image and text side by side, matching the original Word doc layout -->
+        <div class="approach-row">
+          <div>
+            <img src="CS1-data-model.png" alt="Star schema data model diagram showing Line Reference, Ambient Conditions, Raw Material Batches, Production Batches, Downtime Log, Maintenance Log, Process Parameters, Quality Defects, and Product Grade Reference tables connected together" class="post-image-medium" />
+            <p class="approach-caption">The consolidated star schema linking all data sources</p>
+          </div>
+          <div class="approach-text">
+            <ul class="plain-list">
+              <li>Established the investigation objective: quantify the yield loss and identify actionable root causes.</li>
+              <li>Selected Power BI as the analysis platform — already familiar to plant teams, minimizing adoption friction.</li>
+              <li>Consolidated 10 disconnected data sources into a single star schema, linking batches, materials, defects, downtime, maintenance, and environmental conditions.</li>
+              <li>Built 10 purpose-built DAX measures to isolate key variables.</li>
+              <li>Structured the dashboard around departmental workflows, giving production, quality, maintenance, and leadership dedicated views tailored to their decisions.</li>
+              <li>Enabled drill-through and cross-filtering, allowing users to move from high-level KPIs to the underlying evidence without separate reports.</li>
+              <li>Translated the findings into a prioritized action plan ranked by potential yield recovery.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ===== INSIGHTS ===== -->
+        <h2>Insights</h2>
+
+        <ol class="numbered-points">
+          <li>
+            <strong>The problem was concentrated on Line 3.</strong>
+            While other lines stayed within 4 percentage points of baseline, Line 3 fell 24 percentage points by Month 12.
+          </li>
+          <li>
+            <strong>The biggest contributor to yield loss: Supplier B</strong>
+            Introduced in Month 4, Supplier B material produced nearly 4× more defects per 1,000 kg.
+          </li>
+          <li>
+            <strong>Humidity amplified the defects</strong>
+            Surface bubble defects peaked during humid months, but the real finding was that Supplier B's material was nearly 2× more sensitive to humidity.
+          </li>
+          <li>
+            <strong>Deferred maintenance quietly accelerated the decline.</strong>
+            After maintenance was deferred in Month 6, instability tripled, downtime reached 50 hours, and energy use climbed to 0.46 kWh/kg. The delay proved costlier than the shutdown.
+          </li>
+        </ol>
+
+        <!-- Root cause contribution bar chart -->
+        <img src="CS1-root-cause-chart.png" alt="Horizontal bar chart of yield loss contribution by root cause: Supplier B Material 3.2 percentage points, Line 3 Mechanical Wear 2.3 percentage points, Seasonal Humidity 0.8 percentage points, Random Variation 0.4 percentage points" class="post-image-small" />
+        <p class="post-image-caption-spaced">Yield loss contribution by root cause (percentage points)</p>
+
+        <!-- ===== BUSINESS IMPACT ===== -->
+        <h2>Business Impact</h2>
+
+        <p>The investigation transformed three hidden causes into a ranked recovery plan, with every recommendation prioritized by impact, implementation time, and expected yield improvement.</p>
+
+        <h3 class="post-subheading">Projected recovery: 95.8% yield — recovering 94% of the loss.</h3>
+
+        <p>The analysis showed that 6.3 of the 6.7 percentage points lost are recoverable by acting on the three root causes identified. That returns the plant to near-baseline performance within two quarters.</p>
+
+        <div class="post-table-wrapper">
+          <table class="post-table">
+            <thead>
+              <tr>
+                <th>Priority</th>
+                <th>Action</th>
+                <th>Recovery</th>
+                <th>Timeframe</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1 — Immediate</td>
+                <td>Requalify Supplier B by enforcing moisture and MFI limits while shifting interim volume to Supplier A</td>
+                <td><strong>3.2 pp</strong></td>
+                <td>4–6 weeks</td>
+              </tr>
+              <tr>
+                <td>2 — Within 30 days</td>
+                <td>Complete Line 3's overdue maintenance shutdown</td>
+                <td><strong>2.3 pp</strong></td>
+                <td>5–7 days</td>
+              </tr>
+              <tr>
+                <td>3 — Before Month 5</td>
+                <td>Adjust dryer settings ahead of the humid season</td>
+                <td><strong>0.8 pp</strong></td>
+                <td>1 week</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- ===== TECHNOLOGY & SKILLS ===== -->
+        <h2>Technology &amp; Skills</h2>
+
+        <ul class="plain-list">
+          <li>Power BI Desktop &amp; Service</li>
+          <li>DAX (time intelligence, normalization, cost analysis)</li>
+          <li>Star schema data modelling</li>
+        </ul>
+
+      </div>
+
+      <!-- ===== CLOSING CTA ===== -->
+      <div class="post-cta-block">
+        <h3>Are you still chasing hidden root causes through spreadsheets and disconnected reports?</h3>
+        <p>Let's connect it, visualize it, and turn it into action.</p>
+
+        <p class="post-cta-links">
+          <a href="mailto:muhammadaliaslam01@gmail.com">Email Me</a>
+          <span class="cta-divider">&nbsp;|&nbsp;</span>
+          <a href="https://www.linkedin.com/in/muhammadali-ce/" target="_blank">Connect on LinkedIn</a>
+        </p>
+
+        <div class="post-cta-actions">
+          <a href="index.html#work" class="post-cta-dashboard-btn">See Full Investigation Dashboard</a>
+          <a href="pli-case-study.pdf" class="casestudy-download-btn" download>Download Full Case Study</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== FOOTER — exact same as other pages ========== -->
+  <footer class="footer" id="connect">
+
+    <h2 class="footer-heading">LET'S CONNECT</h2>
+
+    <p class="footer-tagline">My inbox is open for projects and opportunities. Email me at:</p>
+
+    <div class="footer-email">
+      <a href="mailto:muhammadaliaslam01@gmail.com" class="footer-email-link">
+        muhammadaliaslam01@gmail.com
+      </a>
+    </div>
+
+    <p class="footer-linkedin-text">
+      I share valuable resources, tips &amp; my experiences on LinkedIn. Follow me
+    </p>
+    <a href="https://www.linkedin.com/in/muhammadali-ce/" target="_blank" class="linkedin-btn">
+      <i class="fa-brands fa-linkedin-in"></i>
+    </a>
+
+    <p class="footer-copy">&copy; 2025 Ali-DataViz. All rights reserved.</p>
+
+  </footer>
+
+</body>
+</html>
