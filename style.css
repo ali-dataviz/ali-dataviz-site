@@ -405,7 +405,7 @@ border: 2px solid var(--color-text-dark);
 .about-blog {
   font-size: 0.95rem;
   color: #444;
-  margin-bottom: 32px;
+  margin-bottom: 12px;
 }
 
 /* Inline hyperlink inside paragraph */
