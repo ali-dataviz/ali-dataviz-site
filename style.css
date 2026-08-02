@@ -645,6 +645,11 @@ border: 2px solid var(--color-text-dark);
   gap: 28px;
   max-width: 1100px;
   margin: 0 auto;
+  justify-content: center;
+}
+
+.blog-card {
+  max-width: 340px;
 }
  
 /* Individual blog card */
